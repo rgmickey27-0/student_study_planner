@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<!-- saved from url=(0190)file:///C:/Users/ramse/AppData/Local/Packages/5319275A.WhatsAppDesktop_cv1g1gvanyjgm/LocalState/sessions/30DF1F26ED0526FB82B08A299F5A6073678CC0E3/transfers/2026-44/Student_Study_Planner.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A simple student study planner for keeping track of assignments and study tasks.">
+  <title>Student Study Planner</title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap');
+
+:root {
+  --ink: #172033;
+  --muted: #68738a;
+  --line: #e7eaf1;
+  --paper: #ffffff;
+  --background: #f4f6fb;
+  --purple: #6558e8;
+  --purple-dark: #5144d2;
+  --green: #16865c;
+  --red: #c74354;
+  font-family: "DM Sans", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 12% 5%, rgba(101,88,232,.10), transparent 28rem),
+    var(--background);
+}
+.app { width: min(760px, calc(100% - 32px)); margin: 0 auto; padding: 46px 0 28px; }
+.hero { text-align: center; margin-bottom: 30px; }
+.brand-mark {
+  display: grid; place-items: center; width: 48px; height: 48px; margin: 0 auto 14px;
+  border-radius: 15px; color: white; background: var(--purple); font-size: 25px;
+  box-shadow: 0 9px 22px rgba(101,88,232,.25);
+}
+.eyebrow { margin: 0 0 7px; color: var(--purple); font-size: 11px; font-weight: 700; letter-spacing: 2px; }
+h1, h2, h3, p { margin-top: 0; }
+h1 { margin-bottom: 8px; font: 800 clamp(30px, 6vw, 42px)/1.1 Manrope, sans-serif; letter-spacing: -1.6px; }
+.subtitle { color: var(--muted); margin-bottom: 0; }
+.panel, .task-list, .empty-state {
+  background: var(--paper); border: 1px solid var(--line); border-radius: 18px;
+  box-shadow: 0 12px 35px rgba(25, 36, 65, .045);
+}
+.form-panel { padding: 25px; }
+h2 { margin-bottom: 18px; font: 700 20px Manrope, sans-serif; letter-spacing: -.4px; }
+.field { margin-bottom: 15px; }
+label { display: block; margin-bottom: 7px; font-size: 13px; font-weight: 600; }
+input, select {
+  width: 100%; min-height: 46px; padding: 11px 13px; border: 1px solid #dce1eb;
+  border-radius: 10px; background: #fff; color: var(--ink); font: inherit; outline: none;
+}
+input:focus, select:focus { border-color: var(--purple); box-shadow: 0 0 0 3px rgba(101,88,232,.12); }
+input::placeholder { color: #a0a8b8; }
+.primary-button {
+  width: 100%; min-height: 47px; border: 0; border-radius: 10px; color: white;
+  background: var(--purple); font: 700 14px "DM Sans", sans-serif; cursor: pointer;
+  transition: background .2s, transform .2s;
+}
+.primary-button:hover { background: var(--purple-dark); transform: translateY(-1px); }
+.form-message { min-height: 17px; margin: 9px 0 0; color: var(--red); font-size: 12px; }
+.task-section { margin-top: 31px; }
+.section-heading { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 13px; }
+.section-heading h2 { margin: 0; }
+.count { display: inline-grid; place-items: center; min-width: 25px; height: 25px; margin-left: 5px; padding: 0 7px; border-radius: 20px; background: #eeecff; color: var(--purple); font: 700 12px "DM Sans"; vertical-align: 2px; }
+.filter-wrap { width: 145px; margin: 0; }
+.filter-wrap select { min-height: 39px; padding: 8px 10px; font-size: 12px; }
+.task-list { overflow: hidden; }
+.task-card { display: flex; align-items: center; gap: 13px; padding: 17px 18px; border-bottom: 1px solid var(--line); }
+.task-card:last-child { border-bottom: 0; }
+.task-check { width: 19px; height: 19px; flex: 0 0 19px; accent-color: var(--purple); cursor: pointer; }
+.task-content { min-width: 0; flex: 1; }
+.task-title { margin: 0 0 4px; overflow-wrap: anywhere; font-size: 14px; font-weight: 700; }
+.task-subject { margin: 0; color: var(--muted); font-size: 12px; }
+.task-card.is-complete .task-title { color: #929bad; text-decoration: line-through; }
+.status { display: inline-block; margin-top: 7px; padding: 3px 8px; border-radius: 20px; background: #fff4df; color: #98600c; font-size: 10px; font-weight: 700; }
+.is-complete .status { background: #e7f7ef; color: var(--green); }
+.delete-button { border: 0; border-radius: 8px; padding: 8px 10px; color: var(--red); background: #fff0f1; font: 600 12px "DM Sans"; cursor: pointer; }
+.delete-button:hover { background: #ffe1e4; }
+.empty-state { padding: 35px 20px; text-align: center; }
+.empty-icon { display: grid; place-items: center; width: 46px; height: 46px; margin: 0 auto 12px; border-radius: 14px; color: var(--purple); background: #f0efff; font-size: 23px; }
+.empty-state h3 { margin-bottom: 6px; font: 700 16px Manrope, sans-serif; }
+.empty-state p { margin-bottom: 0; color: var(--muted); font-size: 13px; }
+footer { padding: 28px 0 0; color: #8992a4; text-align: center; font-size: 12px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+@media (max-width: 520px) {
+  .app { padding-top: 30px; }
+  .form-panel { padding: 19px; }
+  .section-heading { align-items: center; }
+  .task-card { padding: 14px 12px; gap: 9px; }
+  .delete-button { padding: 8px; }
+}
+
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="hero">
+      <div class="brand-mark" aria-hidden="true">✦</div>
+      <p class="eyebrow">STUDENT WORKSPACE</p>
+      <h1>Study Planner</h1>
+      <p class="subtitle">Plan your work. Stay focused. Make progress.</p>
+    </header>
+
+    <section class="panel form-panel" aria-labelledby="add-heading">
+      <h2 id="add-heading">Add a study task</h2>
+      <form id="task-form">
+        <div class="field">
+          <label for="task-title">Task title</label>
+          <input id="task-title" name="title" type="text" maxlength="100" placeholder="e.g. Complete database assignment" required="">
+        </div>
+        <div class="field">
+          <label for="task-subject">Subject or course</label>
+          <input id="task-subject" name="subject" type="text" maxlength="60" placeholder="e.g. Software Development" required="">
+        </div>
+        <button class="primary-button" type="submit">＋ Add task</button>
+        <p id="form-message" class="form-message" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="task-section" aria-labelledby="tasks-heading">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">YOUR WORK</p>
+          <h2 id="tasks-heading">My tasks <span id="task-count" class="count">1</span></h2>
+        </div>
+        <label class="filter-wrap" for="task-filter">
+          <span class="sr-only">Filter tasks</span>
+          <select id="task-filter">
+            <option value="all">All tasks</option>
+            <option value="active">Incomplete</option>
+            <option value="completed">Completed</option>
+          </select>
+        </label>
+      </div>
+      <div id="task-list" class="task-list" aria-live="polite"><article class="task-card is-complete"><input type="checkbox" class="task-check" aria-label="Mark Computer Software Development Project as incomplete"><div class="task-content"><p class="task-title">Computer Software Development Project</p><p class="task-subject">Software Development</p><span class="status">Completed</span></div><button type="button" class="delete-button" aria-label="Delete Computer Software Development Project">Delete</button></article></div>
+      <div id="empty-state" class="empty-state" hidden="">
+        <div class="empty-icon" aria-hidden="true">☷</div>
+        <h3>No tasks yet</h3>
+        <p>Add your first study task above and it will appear here.</p>
+      </div>
+    </section>
+
+    <footer>Small steps every day lead to big results.</footer>
+  </main>
+  <script>
+const STORAGE_KEY = "atuStudentStudyPlannerTasks";
+
+const form = document.getElementById("task-form");
+const titleInput = document.getElementById("task-title");
+const subjectInput = document.getElementById("task-subject");
+const formMessage = document.getElementById("form-message");
+const taskList = document.getElementById("task-list");
+const emptyState = document.getElementById("empty-state");
+const taskCount = document.getElementById("task-count");
+const taskFilter = document.getElementById("task-filter");
+
+let tasks = loadTasks();
+
+function loadTasks() {
+  try {
+    const savedTasks = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    return Array.isArray(savedTasks) ? savedTasks : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+function saveTasks() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+}
+
+function addTask(title, subject) {
+  tasks.unshift({
+    id: (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()),
+    title,
+    subject,
+    completed: false
+  });
+  saveTasks();
+  renderTasks();
+}
+
+function toggleTask(id) {
+  tasks = tasks.map(task =>
+    task.id === id ? { ...task, completed: !task.completed } : task
+  );
+  saveTasks();
+  renderTasks();
+}
+
+function deleteTask(id) {
+  tasks = tasks.filter(task => task.id !== id);
+  saveTasks();
+  renderTasks();
+}
+
+function renderTasks() {
+  const filter = taskFilter.value;
+  const visibleTasks = tasks.filter(task => {
+    if (filter === "active") return !task.completed;
+    if (filter === "completed") return task.completed;
+    return true;
+  });
+
+  taskCount.textContent = String(tasks.length);
+  taskList.replaceChildren();
+  emptyState.hidden = visibleTasks.length !== 0;
+  taskList.hidden = visibleTasks.length === 0;
+
+  if (visibleTasks.length === 0 && tasks.length > 0) {
+    const message = document.createElement("p");
+    message.className = "empty-filter-message";
+    message.textContent = filter === "active"
+      ? "There are no incomplete tasks."
+      : "There are no completed tasks.";
+    emptyState.querySelector("h3").textContent = "Nothing to show";
+    emptyState.querySelector("p").textContent = message.textContent;
+  } else if (tasks.length === 0) {
+    emptyState.querySelector("h3").textContent = "No tasks yet";
+    emptyState.querySelector("p").textContent =
+      "Add your first study task above and it will appear here.";
+  }
+
+  visibleTasks.forEach(task => {
+    const card = document.createElement("article");
+    card.className = `task-card${task.completed ? " is-complete" : ""}`;
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.className = "task-check";
+    checkbox.checked = task.completed;
+    checkbox.setAttribute("aria-label", `Mark ${task.title} as ${task.completed ? "incomplete" : "complete"}`);
+    checkbox.addEventListener("change", () => toggleTask(task.id));
+
+    const content = document.createElement("div");
+    content.className = "task-content";
+
+    const title = document.createElement("p");
+    title.className = "task-title";
+    title.textContent = task.title;
+
+    const subject = document.createElement("p");
+    subject.className = "task-subject";
+    subject.textContent = task.subject;
+
+    const status = document.createElement("span");
+    status.className = "status";
+    status.textContent = task.completed ? "Completed" : "In progress";
+
+    content.append(title, subject, status);
+
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.className = "delete-button";
+    deleteButton.textContent = "Delete";
+    deleteButton.setAttribute("aria-label", `Delete ${task.title}`);
+    deleteButton.addEventListener("click", () => deleteTask(task.id));
+
+    card.append(checkbox, content, deleteButton);
+    taskList.append(card);
+  });
+}
+
+form.addEventListener("submit", event => {
+  event.preventDefault();
+  const title = titleInput.value.trim();
+  const subject = subjectInput.value.trim();
+
+  if (!title || !subject) {
+    formMessage.textContent = "Please enter both a task title and a subject.";
+    return;
+  }
+
+  addTask(title, subject);
+  form.reset();
+  formMessage.textContent = "Task added successfully.";
+  titleInput.focus();
+});
+
+taskFilter.addEventListener("change", renderTasks);
+
+renderTasks();
+
+  </script>
+
+
+</body></html>
